@@ -1,0 +1,16 @@
+[api]
+token= ""
+url = "https://api.telegram.org"
+timeout = 10
+
+    [api.webhook]
+    enable = false
+    listen = ":::8443"
+
+        [api.webhook.tls]
+        key = ""
+        cert = ""
+
+        [api.webhook.endpoint]
+        publicURL = ""
+        cert = ""
