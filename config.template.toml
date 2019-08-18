@@ -14,3 +14,8 @@ timeout = 10
         [api.webhook.endpoint]
         publicURL = ""
         cert = ""
+
+[censys]
+enable = false
+apiID = ""
+apiSecret = ""

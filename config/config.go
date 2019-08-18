@@ -8,7 +8,8 @@ import (
 )
 
 type TomlConfig struct {
-	API api `toml:"api"`
+	API    api    `toml:"api"`
+	Censys censys `toml:"censys"`
 }
 
 type api struct {
@@ -35,6 +36,12 @@ type webhookEndpoint struct {
 	Cert      string `toml:"cert"`
 }
 
+type censys struct {
+	Enable    bool   `toml:"enable"`
+	ApiID     string `toml:"apiID"`
+	ApiSecret string `toml:"apiSecret"`
+}
+
 type Config struct {
 	ConfPath string
 	Config   TomlConfig
@@ -47,6 +54,10 @@ func (conf *Config) check() {
 
 	if conf.Config.API.Webhook.Enable && conf.Config.API.Webhook.Listen == "" {
 		log.Panicln("API.Webhook.Listen can not be null when API.Webhook.Enable is true.")
+	}
+
+	if conf.Config.Censys.Enable && (conf.Config.Censys.ApiID == "" || conf.Config.Censys.ApiSecret == "") {
+		log.Panicln("Centsys' ApiID and ApiSecret must be set when the censys is enable.")
 	}
 }
 

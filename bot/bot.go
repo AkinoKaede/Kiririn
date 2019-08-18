@@ -11,7 +11,7 @@ type Bot struct {
 	Bot *tb.Bot
 }
 
-func (b *Bot) NewBot(config config.TomlConfig) error {
+func (b *Bot) NewBot(config *config.TomlConfig) error {
 	var pref tb.Settings
 	if config.API.Webhook.Enable {
 		poll := &tb.Webhook{
