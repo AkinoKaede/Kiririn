@@ -2,8 +2,9 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"log"
 
+	"github.com/AkinoMaple/Kiririn/bot"
 	"github.com/AkinoMaple/Kiririn/config"
 )
 
@@ -11,12 +12,18 @@ func loadConfig() config.TomlConfig {
 	confPath := flag.String("conf", "/etc/kiririn/config.toml", "Config file's path.")
 	flag.Parse()
 
-	conf := config.ParseConfig{ConfPath: *confPath}
-
-	return conf.Prase()
+	conf := config.Config{ConfPath: *confPath}
+	conf.Prase()
+	return conf.Config
 }
 
 func main() {
-	conf := loadConfig()
-	fmt.Println(conf)
+	botConfig := loadConfig()
+	var bot bot.Bot
+	newErr := bot.NewBot(botConfig)
+	if newErr != nil {
+		log.Panicln(newErr)
+	}
+
+	bot.Start()
 }

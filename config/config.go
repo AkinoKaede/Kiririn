@@ -1,6 +1,7 @@
 package config
 
 import (
+	"log"
 	"os"
 
 	"github.com/BurntSushi/toml"
@@ -34,21 +35,32 @@ type webhookEndpoint struct {
 	Cert      string `toml:"cert"`
 }
 
-type ParseConfig struct {
+type Config struct {
 	ConfPath string
+	Config   TomlConfig
 }
 
-func (conf ParseConfig) Prase() TomlConfig {
+func (conf *Config) check() {
+	if conf.Config.API.Token == "" {
+		log.Panicln("API.Token can not be null.")
+	}
+
+	if conf.Config.API.Webhook.Enable && conf.Config.API.Webhook.Listen == "" {
+		log.Panicln("API.Webhook.Listen can not be null when API.Webhook.Enable is true.")
+	}
+}
+
+func (conf *Config) Prase() {
 	configText := conf.loadFile()
 	var config TomlConfig
 	if _, err := toml.Decode(configText, &config); err != nil {
 		panic(err)
 	}
-
-	return config
+	conf.Config = config
+	conf.check()
 }
 
-func (conf ParseConfig) loadFile() string {
+func (conf *Config) loadFile() string {
 	f, err := os.Open(conf.ConfPath)
 	if err != nil {
 		panic(err)
@@ -56,7 +68,7 @@ func (conf ParseConfig) loadFile() string {
 
 	defer f.Close()
 
-	buf := make([]byte, 4096)
+	buf := make([]byte, 1024)
 	var configText string
 
 	for n, err := f.Read(buf); err == nil; n, err = f.Read(buf) {
