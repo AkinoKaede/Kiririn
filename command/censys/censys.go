@@ -15,7 +15,7 @@ type Censys struct {
 
 func (c *Censys) CensysCommand(m *tb.Message) {
 	if m.Payload == "" {
-		_, err := c.Command.Bot.Bot.Send(m.Chat, "Usage: /censys domain")
+		_, err := c.Command.Bot.Bot.Send(m.Chat, "Usage: /censys domain\n")
 		if err != nil {
 			log.Println(err)
 		}
@@ -32,18 +32,18 @@ func (c *Censys) CensysCommand(m *tb.Message) {
 		return
 	}
 
+	var sendErr error
+
 	if results.Metadata.Count == 0 {
 		msg := fmt.Sprintf("查询内容:%s\n查询结果:无\n", m.Payload)
-		_, err := c.Command.Bot.Bot.Send(m.Chat, msg)
-		if err != nil {
-			log.Println(err)
-		}
+		_, sendErr = c.Command.Bot.Bot.Send(m.Chat, msg)
 	} else {
 		msg := fmt.Sprintf("查询内容:%s\n查询结果:\nIP:%s\n协议:%s\n国家:%s\n注册国家:%s\n经度:%f\n纬度:%f\n省/州:%s\n城市:%s\n时区:%s\n", m.Payload, results.Results[0].IP, results.Results[0].Protocols, results.Results[0].Country, results.Results[0].RegisteredCountry, results.Results[0].Longitude, results.Results[0].Latitude, results.Results[0].Province, results.Results[0].City, results.Results[0].TimeZone)
-		_, err := c.Command.Bot.Bot.Send(m.Chat, msg)
-		if err != nil {
-			log.Println(err)
-		}
+		_, sendErr = c.Command.Bot.Bot.Send(m.Chat, msg)
+	}
+
+	if sendErr != nil {
+		log.Println(sendErr)
 	}
 
 }
