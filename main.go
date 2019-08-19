@@ -6,7 +6,7 @@ import (
 
 	"github.com/AkinoMaple/Kiririn/bot"
 	"github.com/AkinoMaple/Kiririn/config"
-	"github.com/AkinoMaple/Kiririn/headler"
+	"github.com/AkinoMaple/Kiririn/handler"
 )
 
 func loadConfig() config.TomlConfig {
@@ -14,7 +14,7 @@ func loadConfig() config.TomlConfig {
 	flag.Parse()
 
 	conf := config.Config{ConfPath: *confPath}
-	conf.Prase()
+	conf.Parse()
 	return conf.Config
 }
 
@@ -25,8 +25,8 @@ func main() {
 	if newErr != nil {
 		log.Panicln(newErr)
 	}
-	headle := headler.Headler{Bot: &bot, Config: &botConfig}
-	headle.Headle()
+	handle := handler.Handler{Bot: &bot, Config: &botConfig}
+	handle.Handle()
 
 	bot.Start()
 }

@@ -61,7 +61,7 @@ func (conf *Config) check() {
 	}
 }
 
-func (conf *Config) Prase() {
+func (conf *Config) Parse() {
 	configText := conf.loadFile()
 	var config TomlConfig
 	if _, err := toml.Decode(configText, &config); err != nil {
