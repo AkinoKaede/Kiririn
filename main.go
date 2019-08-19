@@ -10,7 +10,7 @@ import (
 )
 
 func loadConfig() config.TomlConfig {
-	confPath := flag.String("conf", "/etc/kiririn/config.toml", "Config file's path.")
+	confPath := flag.String("config", "/etc/kiririn/config.toml", "Config file's path.")
 	flag.Parse()
 
 	conf := config.Config{ConfPath: *confPath}

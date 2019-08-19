@@ -11,8 +11,10 @@ type commandHandler struct {
 }
 
 func (ch *commandHandler) censysHealder() {
-	cs := censys.Censys{Command: ch.Command}
-	ch.Handler.Bot.Bot.Handle("/censys", cs.CensysCommand)
+	if ch.Handler.Config.Censys.Enable {
+		cs := censys.Censys{Command: ch.Command}
+		ch.Handler.Bot.Bot.Handle("/censys", cs.CensysCommand)
+	}
 }
 
 func (ch *commandHandler) CommandHandler() {
