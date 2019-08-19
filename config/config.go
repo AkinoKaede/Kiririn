@@ -8,8 +8,18 @@ import (
 )
 
 type TomlConfig struct {
-	API    api    `toml:"api"`
-	Censys censys `toml:"censys"`
+	Settings settings `toml:"settings"`
+	API      api      `toml:"api"`
+	Censys   censys   `toml:"censys"`
+	Spam     spam     `toml:"spam"`
+}
+
+type settings struct {
+	Masters masters `toml:"masters"`
+}
+
+type masters struct {
+	MastersID []int `toml:"mastersID"`
 }
 
 type api struct {
@@ -42,6 +52,15 @@ type censys struct {
 	ApiSecret string `toml:"apiSecret"`
 }
 
+type spam struct {
+	FiveCents fiveCents `toml:"fiveCents"`
+}
+
+type fiveCents struct {
+	UnSpamWords []string `toml:"unSpamWords"`
+	SpamWords   []string `toml:"spamWords"`
+}
+
 type Config struct {
 	ConfPath string
 	Config   TomlConfig
@@ -65,7 +84,7 @@ func (conf *Config) Parse() {
 	configText := conf.loadFile()
 	var config TomlConfig
 	if _, err := toml.Decode(configText, &config); err != nil {
-		panic(err)
+		log.Panic(err)
 	}
 	conf.Config = config
 	conf.check()
@@ -74,7 +93,7 @@ func (conf *Config) Parse() {
 func (conf *Config) loadFile() string {
 	f, err := os.Open(conf.ConfPath)
 	if err != nil {
-		panic(err)
+		log.Panic(err)
 	}
 
 	defer f.Close()

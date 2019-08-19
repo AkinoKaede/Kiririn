@@ -1,3 +1,7 @@
+[settings]
+    [settings.masters]
+    mastersID = []
+
 [api]
 token= ""
 url = "https://api.telegram.org"

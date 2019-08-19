@@ -3,14 +3,16 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
 
-	"github.com/AkinoMaple/Kiririn/bot"
-	"github.com/AkinoMaple/Kiririn/config"
-	"github.com/AkinoMaple/Kiririn/handler"
+	"github.com/AkinoKaede/Kiririn/bot"
+	"github.com/AkinoKaede/Kiririn/config"
+	"github.com/AkinoKaede/Kiririn/handler"
 )
 
 func loadConfig() config.TomlConfig {
-	confPath := flag.String("config", "/etc/kiririn/config.toml", "Config file's path.")
+	wd, _ := os.Getwd()
+	confPath := flag.String("config", wd+"/config.toml", "Config file's path.")
 	flag.Parse()
 
 	conf := config.Config{ConfPath: *confPath}

@@ -1,9 +1,9 @@
 package command
 
 import (
-	"github.com/AkinoMaple/Kiririn/bot"
-	"github.com/AkinoMaple/Kiririn/config"
-	"github.com/AkinoMaple/Kiririn/model"
+	"github.com/AkinoKaede/Kiririn/bot"
+	"github.com/AkinoKaede/Kiririn/config"
+	"github.com/AkinoKaede/Kiririn/model"
 )
 
 type Command struct {

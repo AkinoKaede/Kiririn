@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/AkinoMaple/Kiririn/config"
+	"github.com/AkinoKaede/Kiririn/config"
 )
 
 type Model struct {

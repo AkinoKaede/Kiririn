@@ -3,7 +3,7 @@ package bot
 import (
 	"time"
 
-	"github.com/AkinoMaple/Kiririn/config"
+	"github.com/AkinoKaede/Kiririn/config"
 	tb "gopkg.in/tucnak/telebot.v2"
 )
 

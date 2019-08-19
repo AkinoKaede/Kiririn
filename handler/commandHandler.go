@@ -1,13 +1,19 @@
 package handler
 
 import (
-	"github.com/AkinoMaple/Kiririn/command"
-	"github.com/AkinoMaple/Kiririn/command/censys"
+	"github.com/AkinoKaede/Kiririn/command"
+	"github.com/AkinoKaede/Kiririn/command/about"
+	"github.com/AkinoKaede/Kiririn/command/censys"
 )
 
 type commandHandler struct {
 	Handler *Handler
 	Command *command.Command
+}
+
+func (ch *commandHandler) aboutHealder() {
+	a := about.About{Command: ch.Command}
+	ch.Handler.Bot.Bot.Handle("/about", a.AboutCommand)
 }
 
 func (ch *commandHandler) censysHealder() {
@@ -20,5 +26,7 @@ func (ch *commandHandler) censysHealder() {
 func (ch *commandHandler) CommandHandler() {
 	ch.Command = &command.Command{Bot: ch.Handler.Bot, Config: ch.Handler.Config}
 	ch.Command.SetModel()
+
+	ch.aboutHealder()
 	ch.censysHealder()
 }
